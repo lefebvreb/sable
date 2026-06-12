@@ -4,6 +4,14 @@ plugins {
     id "checkstyle"
 }
 
+if (System.getenv("SNAPSHOT") != null) {
+    String buildNumber = System.getenv("BUILD_NUMBER")
+
+    if (buildNumber != null) {
+        version += "-$buildNumber"
+    }
+}
+
 base {
     archivesName = "${mod_id}-${project.name}-${minecraft_version}"
 }
@@ -209,7 +217,7 @@ publishing {
     repositories {
         mavenLocal()
         maven {
-            url = System.getenv('local_maven_url')
+            url = System.getenv('MAVEN_PUBLISH_URL')
 
             credentials {
                 username = System.getenv('local_maven_user')
